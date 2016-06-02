@@ -13,7 +13,7 @@ import (
 func Parse(_url string) string {
 	resp, err := http.Get(_url)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 	urlparsed, _ := url.Parse(_url)
 	data := microformats.Parse(resp.Body, urlparsed)
@@ -38,7 +38,7 @@ func Parse(_url string) string {
 	feed.Items = items
 	response, err := feed.ToAtom()
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 	return response
 }

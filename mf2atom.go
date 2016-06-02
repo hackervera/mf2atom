@@ -27,10 +27,16 @@ func Parse(_url string) string {
 	for _, item := range data.Items {
 		if item.Type[0] == "h-entry" {
 			created := parseTime(item)
+			description := ""
+			if len(item.Properties["in-reply-to"]) != 0 {
+				link := item.Properties["in-reply-to"][0].(string)
+				description = "<a href=" + link + ">" + link + "</a>"
+			}
 			new_item := &feeds.Item{
-				Title:   item.Properties["name"][0].(string),
-				Link:    &feeds.Link{Href: item.Properties["url"][0].(string)},
-				Created: created,
+				Title:       item.Properties["name"][0].(string),
+				Link:        &feeds.Link{Href: item.Properties["url"][0].(string)},
+				Created:     created,
+				Description: description,
 			}
 			items = append(items, new_item)
 		}
